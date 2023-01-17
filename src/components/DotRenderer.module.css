@@ -12,6 +12,7 @@
     .dot {
         width: 3vw;
         height: 3vw;
+        margin: 0.5vw;
         line-height: 3vw;
         border-radius: 1vw;
         font-size: 2vw;

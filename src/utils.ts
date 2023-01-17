@@ -1,7 +1,7 @@
 import {DotStatus, Field} from "./types";
 
-export const WIDTH = 10;
-export const HEIGHT = 10;
+export const WIDTH = 6;
+export const HEIGHT = 6;
 export const DOTS_TO_FILL = 5;
 
 export function createField(): Field {
