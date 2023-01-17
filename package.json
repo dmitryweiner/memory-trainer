@@ -1,5 +1,6 @@
 {
   "name": "memory-trainer",
+  "homepage": "https://dmitryweiner.github.io/memory-trainer/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "rm -rf docs && react-scripts build && mv build docs"
   },
   "eslintConfig": {
     "extends": [

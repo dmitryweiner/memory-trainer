@@ -3,6 +3,7 @@ import './App.css';
 import {createField, DOTS_TO_FILL} from "./utils";
 import {DotStatus, Field, GameState} from "./types";
 import FieldRenderer from "./components/FieldRenderer";
+import StatusBar from "./components/StatusBar";
 
 const TIME_TO_REMEMBER = 5;
 const TIME_TO_GUESS = 30;
@@ -13,6 +14,7 @@ type AppContextType = {
   currentTurn?: number,
   currentTimer?: number,
   dotClickHandler?: (x: number, y: number) => void,
+  playOneMoreTimeHandler?: () => void,
 }
 
 export const AppContext = createContext<AppContextType>({});
@@ -41,20 +43,11 @@ function App() {
     } else {
       setGameState(GameState.GameOverLoose);
     }
-
   };
 
-  const showGameState = () => {
-    switch (gameState) {
-      case GameState.ShowNumbers:
-        return "Запомните расположение и порядок чисел";
-      case GameState.Guessing:
-        return "Нажмите на клеточки с числами в порядке возрастания";
-      case GameState.GameOverWon:
-        return "Вы выиграли!";
-      case GameState.GameOverLoose:
-        return "Вы проиграли 😔";
-    }
+  const playOneMoreTimeHandler = () => {
+    setField(createField());
+    setGameState(GameState.ShowNumbers);
   };
 
   useEffect(() => {
@@ -65,14 +58,17 @@ function App() {
         timer1 = setTimeout(() => {
           setGameState(GameState.Guessing);
         }, TIME_TO_REMEMBER * 1000);
+        setCurrentTimer(TIME_TO_REMEMBER);
         timer2 = setInterval(() => {
           setCurrentTimer(t => t - 1);
         }, 1000);
         break;
       case GameState.Guessing:
+        setCurrentTurn(1);
         timer1 = setTimeout(() => {
           setGameState(GameState.GameOverLoose);
         }, TIME_TO_GUESS * 1000);
+        setCurrentTimer(TIME_TO_GUESS);
         timer2 = setInterval(() => {
           setCurrentTimer(t => t - 1);
         }, 1000);
@@ -88,14 +84,15 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h3>Игра "Запомни числа"</h3>
-        {showGameState()}{currentTimer}{currentTurn}
         <AppContext.Provider value={{
           field,
           gameState,
           dotClickHandler,
           currentTimer,
-          currentTurn
+          currentTurn,
+          playOneMoreTimeHandler,
         }}>
+          <StatusBar/>
           <FieldRenderer/>
         </AppContext.Provider>
       </header>

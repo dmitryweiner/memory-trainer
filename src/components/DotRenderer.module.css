@@ -1,12 +1,27 @@
 .dot {
-    width: 3vw;
-    height: 3vw;
-    line-height: 3vw;
-    border: 0.1vw dotted gray;
-    margin: 0.5vw;
-    border-radius: 1vw;
+    width: 7vw;
+    height: 7vw;
+    line-height: 7vw;
+    border: 1px dotted gray;
+    margin: 1vw;
+    border-radius: 2vw;
+    font-size: 4vw;
+}
+
+@media screen and (min-width: 800px) {
+    .dot {
+        width: 3vw;
+        height: 3vw;
+        line-height: 3vw;
+        border-radius: 1vw;
+        font-size: 2vw;
+    }
 }
 
 .filled {
     background-color: cadetblue;
+}
+
+@media screen- {
+
 }
