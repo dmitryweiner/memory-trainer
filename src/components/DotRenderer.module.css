@@ -1,0 +1,12 @@
+.dot {
+    width: 3vw;
+    height: 3vw;
+    line-height: 3vw;
+    border: 0.1vw dotted gray;
+    margin: 0.5vw;
+    border-radius: 1vw;
+}
+
+.filled {
+    background-color: cadetblue;
+}
