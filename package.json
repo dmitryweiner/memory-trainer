@@ -1,9 +1,10 @@
 {
   "name": "memory-trainer",
   "homepage": "https://dmitryweiner.github.io/memory-trainer/",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "@ramonak/react-progress-bar": "^5.0.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

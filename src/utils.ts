@@ -1,5 +1,7 @@
 import {DotStatus, Field} from "./types";
 
+export const TIME_TO_REMEMBER = 5;
+export const TIME_TO_GUESS = 30;
 export const WIDTH = 6;
 export const HEIGHT = 6;
 export const DOTS_TO_FILL = 5;

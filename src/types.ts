@@ -2,7 +2,8 @@
 export enum DotStatus {
   Empty,
   Hidden,
-  Open
+  Open,
+  Wrong
 }
 
 export type Dot = {

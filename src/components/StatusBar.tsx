@@ -1,6 +1,9 @@
 import React, {useContext} from 'react';
 import {GameState} from "../types";
 import {AppContext} from "../App";
+import ProgressBar from "@ramonak/react-progress-bar";
+import {TIME_TO_GUESS, TIME_TO_REMEMBER} from "../utils";
+import styles from "./StatusBar.module.css";
 
 const StatusBar = () => {
   const {gameState, currentTimer, playOneMoreTimeHandler} = useContext(AppContext);
@@ -17,15 +20,19 @@ const StatusBar = () => {
     }
   };
 
+  const progressValue = gameState === GameState.Guessing
+    ? ~~(currentTimer / TIME_TO_GUESS * 100)
+    : ~~(currentTimer / TIME_TO_REMEMBER * 100);
+
   return <>
     <div>
       {showGameState()}
     </div>
-    <div>
-      {/*TODO: create progress bar*/ " "}
-      {gameState === GameState.Guessing || gameState === GameState.ShowNumbers ? currentTimer : ""}
+    <div className={styles.bar}>
+      {(gameState === GameState.Guessing || gameState === GameState.ShowNumbers) &&
+        <ProgressBar completed={progressValue} isLabelVisible={false} animateOnRender={true}/>}
       {(gameState === GameState.GameOverLoose || gameState === GameState.GameOverWon) &&
-        <button onClick={playOneMoreTimeHandler}>
+        <button className={styles.oneMoreButton} onClick={playOneMoreTimeHandler}>
           Ещё раз?
         </button>}
     </div>

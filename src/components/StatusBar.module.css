@@ -1,0 +1,17 @@
+.oneMoreButton {
+    border-radius: 10px;
+    height: 30px;
+    width: 150px;
+}
+
+.bar {
+    width: 90%;
+    margin-bottom: 20px;
+}
+
+@media screen and (min-width: 800px) {
+    .bar {
+        width: 40%;
+    }
+}
+

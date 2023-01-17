@@ -23,6 +23,7 @@
     background-color: cadetblue;
 }
 
-@media screen- {
-
+.wrong {
+    background-color: darkred;
 }
+

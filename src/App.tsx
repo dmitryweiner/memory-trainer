@@ -1,23 +1,27 @@
 import React, {createContext, useEffect, useState} from 'react';
 import './App.css';
-import {createField, DOTS_TO_FILL} from "./utils";
+import {createField, DOTS_TO_FILL, TIME_TO_GUESS, TIME_TO_REMEMBER} from "./utils";
 import {DotStatus, Field, GameState} from "./types";
 import FieldRenderer from "./components/FieldRenderer";
 import StatusBar from "./components/StatusBar";
 
-const TIME_TO_REMEMBER = 5;
-const TIME_TO_GUESS = 30;
-
 type AppContextType = {
-  field?: Field,
-  gameState?: GameState,
-  currentTurn?: number,
-  currentTimer?: number,
-  dotClickHandler?: (x: number, y: number) => void,
-  playOneMoreTimeHandler?: () => void,
+  field: Field,
+  gameState: GameState,
+  currentTurn: number,
+  currentTimer: number,
+  dotClickHandler: (x: number, y: number) => void,
+  playOneMoreTimeHandler: () => void,
 }
 
-export const AppContext = createContext<AppContextType>({});
+export const AppContext = createContext<AppContextType>({
+  field: createField(),
+  gameState: GameState.ShowNumbers,
+  currentTurn: 1,
+  currentTimer: 0,
+  dotClickHandler: () => {},
+  playOneMoreTimeHandler: () => {},
+});
 
 function App() {
   const [field, setField] = useState(createField());
@@ -28,8 +32,8 @@ function App() {
   const dotClickHandler = (x: number, y: number) => {
     if (gameState !== GameState.Guessing || field[y][x]?.value === undefined) return;
 
+    const fieldCopy = field.map(row => row.slice());
     if (field[y][x].value === currentTurn) {
-      const fieldCopy = field.map(row => row.slice());
       fieldCopy[y][x] = {
         ...field[y][x],
         status: DotStatus.Open
@@ -41,6 +45,11 @@ function App() {
         setCurrentTurn(n => n + 1);
       }
     } else {
+      fieldCopy[y][x] = {
+        ...field[y][x],
+        status: DotStatus.Wrong
+      };
+      setField(fieldCopy);
       setGameState(GameState.GameOverLoose);
     }
   };
