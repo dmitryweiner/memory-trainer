@@ -22,4 +22,7 @@ export enum GameState {
   GameOverLoose
 }
 
-
+export type FieldParams = {
+  size: number,
+  dots: number
+}

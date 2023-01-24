@@ -1,32 +1,44 @@
-import {createField, DOTS_TO_FILL, HEIGHT, WIDTH} from "../utils";
+import {createField, MIN_DOTS, MIN_SIZE} from "../utils";
 import {DotStatus} from "../types";
 
 test("Creating empty field", () => {
-  const field = createField();
-  expect(field.length).toEqual(HEIGHT);
-  expect(field[0].length).toEqual(WIDTH);
+  const fieldParams = {
+    size: MIN_SIZE,
+    dots: MIN_DOTS
+  };
+  const field = createField(fieldParams);
+  expect(field.length).toEqual(MIN_SIZE);
+  expect(field[0].length).toEqual(MIN_SIZE);
 });
 
 test("Creating empty field with some filled dots", () => {
-  const field = createField();
+  const fieldParams = {
+    size: MIN_SIZE,
+    dots: MIN_DOTS
+  };
+  const field = createField(fieldParams);
   let filledCount = 0;
-  for (let i = 0; i < HEIGHT; i++) {
-    for (let j = 0; j < WIDTH; j++) {
+  for (let i = 0; i < MIN_SIZE; i++) {
+    for (let j = 0; j < MIN_SIZE; j++) {
       if (field[i][j]?.value !== undefined) {
         filledCount++;
       }
     }
   }
-  expect(filledCount).toEqual(DOTS_TO_FILL);
+  expect(filledCount).toEqual(MIN_DOTS);
 });
 
 test("Filled dots has proper attributes", () => {
-  const field = createField();
+  const fieldParams = {
+    size: MIN_SIZE,
+    dots: MIN_DOTS
+  };
+  const field = createField(fieldParams);
   let filledDot;
   let x;
   let y;
-  for (let i = 0; i < HEIGHT; i++) {
-    for (let j = 0; j < WIDTH; j++) {
+  for (let i = 0; i < MIN_SIZE; i++) {
+    for (let j = 0; j < MIN_SIZE; j++) {
       if (field[i][j]?.value !== undefined) {
         filledDot = field[i][j];
         x = j;
