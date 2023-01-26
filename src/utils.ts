@@ -8,9 +8,11 @@ export const MIN_DOTS = 5;
 export const MAX_DOTS = 5;
 
 export function getFieldParamsByWinsLooses(wins: number, loose: number): FieldParams {
+  const addDots = (wins - loose) > 0 ? wins - loose : 0;
+  const addSize = ~~(addDots / 5);
   return {
-    size: MIN_SIZE,
-    dots: MIN_DOTS
+    size: MIN_SIZE + addSize,
+    dots: MIN_DOTS + addDots
   }
 }
 
