@@ -3,9 +3,7 @@ import {DotStatus, Field, FieldParams} from "./types";
 export const TIME_TO_REMEMBER = 5;
 export const TIME_TO_GUESS = 30;
 export const MIN_SIZE = 6;
-export const MAX_SIZE = 6;
 export const MIN_DOTS = 5;
-export const MAX_DOTS = 5;
 
 export function getFieldParamsByWinsLooses(wins: number, loose: number): FieldParams {
   const addDots = (wins - loose) > 0 ? wins - loose : 0;

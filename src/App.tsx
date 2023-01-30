@@ -1,33 +1,55 @@
 import React, {createContext, useEffect, useState} from 'react';
 import './App.css';
-import {createField, DOTS_TO_FILL, TIME_TO_GUESS, TIME_TO_REMEMBER} from "./utils";
+import {
+  createField,
+  getFieldParamsByWinsLooses,
+  MIN_DOTS,
+  MIN_SIZE,
+  TIME_TO_GUESS,
+  TIME_TO_REMEMBER
+} from "./utils";
 import {DotStatus, Field, GameState} from "./types";
 import FieldRenderer from "./components/FieldRenderer";
 import StatusBar from "./components/StatusBar";
+import GameStats from "./components/GameStats";
 
 type AppContextType = {
   field: Field,
   gameState: GameState,
   currentTurn: number,
   currentTimer: number,
+  wins: number,
+  looses: number,
   dotClickHandler: (x: number, y: number) => void,
   playOneMoreTimeHandler: () => void,
 }
 
-export const AppContext = createContext<AppContextType>({
-  field: createField(),
+const initialFieldParams = {
+  size: MIN_SIZE,
+  dots: MIN_DOTS
+};
+
+const initialState = {
+  field: createField(initialFieldParams),
   gameState: GameState.ShowNumbers,
   currentTurn: 1,
   currentTimer: 0,
+  wins: 0,
+  looses: 0,
   dotClickHandler: () => {},
   playOneMoreTimeHandler: () => {},
-});
+};
+
+export const AppContext = createContext<AppContextType>(initialState);
 
 function App() {
-  const [field, setField] = useState(createField());
+  const [field, setField] = useState(createField(initialFieldParams));
   const [gameState, setGameState] = useState<GameState>(GameState.ShowNumbers);
   const [currentTurn, setCurrentTurn] = useState(1);
   const [currentTimer, setCurrentTimer] = useState(0);
+  const [wins, setWins] = useState(0);
+  const [looses, setLooses] = useState(0);
+  const [fieldParams, setFieldParams] = useState(initialFieldParams);
 
   const dotClickHandler = (x: number, y: number) => {
     if (gameState !== GameState.Guessing || field[y][x]?.value === undefined) return;
@@ -39,8 +61,9 @@ function App() {
         status: DotStatus.Open
       };
       setField(fieldCopy);
-      if (currentTurn === DOTS_TO_FILL) {
-        setGameState(GameState.GameOverWon)
+      if (currentTurn === fieldParams.dots) {
+        setGameState(GameState.GameOverWon);
+        setWins(v => v + 1);
       } else {
         setCurrentTurn(n => n + 1);
       }
@@ -51,12 +74,15 @@ function App() {
       };
       setField(fieldCopy);
       setGameState(GameState.GameOverLoose);
+      setLooses(v => v + 1);
     }
   };
 
   const playOneMoreTimeHandler = () => {
-    setField(createField());
+    const fieldParams = getFieldParamsByWinsLooses(wins, looses);
+    setField(createField(fieldParams));
     setGameState(GameState.ShowNumbers);
+    setFieldParams(fieldParams);
   };
 
   useEffect(() => {
@@ -99,8 +125,11 @@ function App() {
           dotClickHandler,
           currentTimer,
           currentTurn,
+          wins,
+          looses,
           playOneMoreTimeHandler,
         }}>
+          <GameStats/>
           <StatusBar/>
           <FieldRenderer/>
         </AppContext.Provider>
